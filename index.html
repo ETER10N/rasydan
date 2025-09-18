@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permadani Takdir</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0f172a, #1e3a8a, #6d28d9);
+      color: white;
+      scroll-behavior: smooth;
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #fbbf24, #fde68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #e5e7eb;
+    }
+
+    .btn {
+      background: #fbbf24;
+      color: #0f172a;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #f59e0b;
+    }
+
+    /* INTRO */
+    .intro {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      padding: 0 20px;
+    }
+
+    /* TIMELINE */
+    .timeline-section {
+      padding: 60px 20px;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 0 auto;
+      padding: 20px 0;
+      width: 90%;
+      max-width: 700px;
+    }
+
+    .timeline::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: rgba(255,255,255,0.3);
+      transform: translateX(-50%);
+    }
+
+    .event {
+      position: relative;
+      width: 50%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .event:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+
+    .event:nth-child(even) {
+      left: 50%;
+    }
+
+    .event-content {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .event-content:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .event h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.4rem;
+      color: #fde68a;
+    }
+
+    .sub-list {
+      display: none;
+      margin-top: 10px;
+      padding-left: 15px;
+    }
+
+    .sub-list li {
+      list-style: none;
+      margin: 5px 0;
+      padding: 5px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sub-list li:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .event::before {
+      content: "";
+      position: absolute;
+      top: 25px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      background: #fbbf24;
+      border-radius: 50%;
+      border: 3px solid #1e3a8a;
+      z-index: 1;
+    }
+
+    .event:nth-child(even)::before {
+      left: -10px;
+      right: auto;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content p {
+      background: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      padding: 10px;
+      border-radius: 12px;
+      max-width: 600px;
+      max-height: 75vh;
+      overflow-y: auto;
+      text-align: justify; /* Tambahkan baris ini */
+      line-height: 1,7;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #6b7280;
+    }
+
+    /* QUOTES GALLERY */
+    .quotes-section {
+      padding: 60px 20px;
+      background: rgba(15, 23, 42, 0.3); /* Sedikit beda warna biar ada kontras */
+    }
+
+    .quotes-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .quote-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #fbbf24;
+      padding: 25px 30px;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .quote-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    /* === KODE CSS BARU UNTUK MUSIK LATAR === */
+#music-player-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1001;
+}
+
+#play-pause-btn {
+  background-color: rgba(251, 191, 36, 0.8); /* Warna emas transparan */
+  color: #0f172a;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#play-pause-btn:hover {
+  background-color: #f59e0b;
+  transform: scale(1.1);
+}
+
+
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <h1>Permadani Takdir</h1>
+    <p><em>“Takdir bukan garis lurus, melainkan tenunan rumit dari miliaran jiwa.”</em></p>
+    <a href="#timeline" class="btn">Mulai Membaca</a>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p>
+      <strong>Permadani Takdir</strong> adalah sebuah kumpulan kisah reflektif tentang kehidupan, 
+      takdir, dan pencarian makna. Setiap bab membawa pembaca menelusuri perjalanan jiwa-jiwa 
+      yang beragam, dari mitologi imajiner hingga potret keseharian yang penuh pelajaran.  
+      Buku ini ditulis untuk menjadi cermin, mozaik, sekaligus pelayaran batin yang mengajak 
+      kita memahami arti keberadaan.
+    </p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-section" id="timeline">
+    <h2 style="text-align:center; margin-bottom:30px;">Daftar Isi</h2>
+    <div class="timeline">
+      <!-- Bab 1 -->
+      <div class="event">
+        <div class="event-content" onclick="toggleSub('bab1')">
+          <h2>Bab I – Mitologi Stasiun</h2>
+        </div>
+        <ul class="sub-list" id="bab1">
+          <li onclick="openModal('Stasiun')">Stasiun</li>
+          <li onclick="openModal('Peron')">Peron</li>
+          <li onclick="openModal('Ruang Tunggu')">Ruang Tunggu</li>
+        </ul>
+      </div>
+
+      <!-- Bab 2 -->
+      <div class="event">
+        <div class="event-content" onclick="toggleSub('bab2')">
+          <h2>Bab II – Saga Keabadian</h2>
+        </div>
+        <ul class="sub-list" id="bab2">
+          <li onclick="openModal('First Stop')">First Stop</li>
+          <li onclick="openModal('Birth')">Birth</li>
+          <li onclick="openModal('Middle Stop')">Middle Stop</li>
+          <li onclick="openModal('Life')">Life</li>
+          <li onclick="openModal('Eternity')">Eternity</li>
+          <li onclick="openModal('Last Stop')">Last Stop</li>
+        </ul>
+      </div>
+
+      <!-- Bab 3 -->
+       <div class="event">
+        <div class="event-content" onclick="toggleSub('bab3')">
+          <h2>Bab III – Tiga Cermin Berjuta Makna</h2>
+        </div>
+        <ul class="sub-list" id="bab3">
+          <li onclick="openModal('Kitab Aisyah')">Kitab Aisyah</li>
+          <li onclick="openModal('Kitab Laila')">Kitab Laila</li>
+          <li onclick="openModal('Kitab Fathia')">Kitab Fathia</li>
+        </ul>
+      </div>
+ 
+      <!-- Bab 4 -->
+      <div class="event">
+        <div class="event-content" onclick="toggleSub('bab4')">
+          <h2>Bab IV – Mozaik Kehidupan</h2>
+        </div>
+        <ul class="sub-list" id="bab4">
+          <li onclick="openModal('Amira')">Amira</li>
+          <li onclick="openModal('Fatina')">Fatina</li>
+          <li onclick="openModal('Mazaya')">Mazaya</li>
+          <li onclick="openModal('Hanum')">Hanum</li>
+          <li onclick="openModal('Azizah')">Azizah</li>
+          <li onclick="openModal('Karim')">Karim</li>
+          <li onclick="openModal('Hilya')">Hilya</li>
+          <li onclick="openModal('Salman')">Salman</li>
+          <li onclick="openModal('Shafira')">Shafira</li>
+          <li onclick="openModal('Neil')">Neil</li>
+          <li onclick="openModal('Laras')">Laras</li>
+          <li onclick="openModal('Raven')">Raven</li>
+          <li onclick="openModal('Kartika')">Kartika</li>
+          <li onclick="openModal('Sausan')">Sausan</li>
+          <li onclick="openModal('Desi')">Desi</li>
+          <li onclick="openModal('Stranger')">Stranger</li>
+          <li onclick="openModal('Sungai')">Sungai</li>
+          <li onclick="openModal('Vas Bunga')">Vas Bunga</li>
+          <li onclick="openModal('Malam')">Malam</li>
+          <li onclick="openModal('Terima')">Terima</li>
+          <li onclick="openModal('Jam Kehidupan')">Jam Kehidupan</li>
+          <li onclick="openModal('Satu Nafas Terakhir')">Satu Nafas Terakhir</li>
+          <li onclick="openModal('Unik atau Ironi?')">Unik atau Ironi?</li>
+          <li onclick="openModal('Hormati Dirimu')">Hormati Dirimu</li>
+          <li onclick="openModal('Laut')">Laut</li>
+          <li onclick="openModal('Cinta')">Cinta</li>
+          <li onclick="openModal('Tuhan')">Tuhan</li>
+          <li onclick="openModal('Dengarkan Mereka!')">Dengarkan Mereka!</li>
+          <li onclick="openModal('Terus Berjalan')">Terus Berjalan</li>
+          <li onclick="openModal('Ruang Evaluasi')">Ruang Evaluasi</li>
+          <li onclick="openModal('Luka')">Luka</li>
+          <li onclick="openModal('Sehari')">Sehari</li>
+          <li onclick="openModal('Tamu')">Tamu</li>
+          <li onclick="openModal('Kepergian')">Kepergian</li>
+          <li onclick="openModal('Lanjutkan Kehidupanmu')">Lanjutkan Kehidupanmu</li>
+          <li onclick="openModal('Mengalah, Sabar, dan Ikhlas')">Mengalah, Sabar, dan Ikhlas</li>
+          <li onclick="openModal('Anda')">Anda</li>
+          <li onclick="openModal('Aku: Ciptaan Tuhan Terindah')">Aku: Ciptaan Tuhan Terindah</li>
+          <li onclick="openModal('Maafkan Aku')">Maafkan Aku</li>
+          <li onclick="openModal('Diromantisasikan Saja')">Diromantisasikan Saja</li>
+      
+        </ul>
+      </div>
+
+      <!-- Bab 5 -->
+      <div class="event">
+        <div class="event-content" onclick="toggleSub('bab5')">
+          <h2>Bab V – Saga Pelayaran Abadi</h2>
+        </div>
+        <ul class="sub-list" id="bab5">
+          <li onclick="openModal('The Fallen Angel')">The Fallen Angel</li>
+          <li onclick="openModal('The Guardian of Azazil')">The Guardian of Azazil</li>
+          <li onclick="openModal('Satu Lesatan Anak Panah')">Satu Lesatan Anak Panah</li>
+          <li onclick="openModal('A New Dawn')">A New Dawn</li>
+          <li onclick="openModal('Kapten Jibril')">Kapten Jibril</li>
+          <li onclick="openModal('Pelayaran Abadi')">Pelayaran Abadi</li>
+          <li onclick="openModal('The Silent Mandate')">The Silent Mandate</li>
+          <li onclick="openModal('Para Pembawa Cahaya')">Para Pembawa Cahaya</li>
+          <li onclick="openModal('Hantu Pelayaran')">Hantu Pelayaran</li>
+          <li onclick="openModal('Sang Pelangsung Kehidupan')">Sang Pelangsung Kehidupan</li>
+          <li onclick="openModal('Pelabuhan Akhir')">Pelabuhan Akhir</li>
+          <li onclick="openModal('Sang Pengantar Tragedi')">Sang Pengantar Tragedi</li>
+          <li onclick="openModal('Hari Akhir')">Hari Akhir</li>
+          <li onclick="openModal('Lautan Delima')">Lautan Delima</li>
+          <li onclick="openModal('Lautan Melanit')">Lautan Melanit</li>
+          <li onclick="openModal('Some-day in Eternity')">Some-day in Eternity</li>
+      
+        </ul>
+      </div>
+    </div>
+  </section> <section class="quotes-section">
+    <h2 style="text-align:center;">Gema dari Permadani</h2>
+    <div class="quotes-container">
+      
+      <div class="quote-card">
+        <blockquote>
+          “Kamu tidak pernah tersesat; kamu selalu dalam perjalanan pulang.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Luka tidak memiliki hierarki. Penderitaan tidak selalu datang dari tragedi besar yang terlihat mata; ia juga bisa bersembunyi di dalam sangkar emas yang paling indah sekalipun.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Retakan itu akan selamanya ada, menjadi pengingat abadi bahwa sesuatu yang pernah pecah, sekuat apa pun dilem kembali, tidak akan pernah benar-benar pulih seperti sedia kala.”
+        </blockquote>
+      </div>
+      
+      <div class="quote-card">
+        <blockquote>
+          “Iman bukanlah tentang ritual yang sempurna atau hafalan yang banyak. Iman adalah tentang percakapan sunyi itu.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Setiap orang yang datang mengetuk, pada dasarnya adalah seorang tamu—yang pada akhirnya akan mengucapkan selamat tinggal dan pergi.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Ketenangan itu datang bukan dari jawaban yang diberikan, melainkan dari keyakinan bahwa kita tidak menanggung beban ini sendirian.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Topeng terindah adalah wajahnya sendiri, dengan segala gurat lelah dan bekas lukanya.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Menjadi diri sendiri itu bukan berarti menciptakan sesuatu dari ketiadaan... Melainkan merangkai sebuah mozaik unik yang hanya kamu miliki.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Pagi ini adalah bisikan cinta-Nya, sebuah pesan tanpa kata yang memberitahumu, 'Kau masih berarti di sini. Ceritamu belum usai.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Semua kedatangan adalah keberangkatan, dan semua keberangkatan adalah kedatangan.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Pada hakikatnya, kita keluar dari zona nyaman hanya untuk mencari zona nyaman lainnya, kalau begitu, kenapa harus terus keluar?.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Semesta tak akan mengenang namamu, namun ia akan mengenang selamanya seluruh kebaikanmus.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Hidup selalu menawarkan dua jalan: tetap aman dalam penjara yang kita bangun sendiri, atau melangkah keluar menanggung risiko kebebasan.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Kadang yang paling kita rindukan bukanlah rumah, melainkan kehangatan yang seharusnya ada di dalamnya.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Kadang kita iri pada kebahagiaan orang lain, padahal yang kita lihat hanyalah potongan kecil dari hidup mereka.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Pengetahuan tanpa empati hanyalah menara gading yang sepi.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Mereka berpisah bukan karena saling membenci, melainkan karena terlalu memahami bahwa mereka ditakdirkan untuk mengagumi satu sama lain dari dua langit yang berbeda.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Ia adalah pelari terkaya yang paling miskin; ia memiliki semua medali, namun tak memiliki satu pun kenangan indah dari perjalanannya.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Dalam kegelapan malam sekalipun, Tuhan tak benar-benar meninggalkan hamba-Nya. Ia nyalakan benda-benda langit untuk memandu hamba-Nya dalam pelukan malam.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Setiap jiwa adalah benang, dan tanpa benangmu, permadani takdir ini tidak akan pernah utuh.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Terkadang, menunjukkan serpihan-serpihan retakmu justru bisa membuat orang lain merasa lebih utuh.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Luka tak membuatmu lemah, justru ia membuatmu terlihat agung—sebagai bukti bahwa kau pernah benar-benar hidup.”
+        </blockquote>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          “Retakan itu akan selamanya ada, menjadi pengingat abadi bahwa sesuatu yang pernah pecah, sekuat apa pun dilem kembali, tidak akan pernah benar-benar pulih seperti sedia kala.”
+        </blockquote>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-body"></p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Riyadh Rasydan. All Rights Reserved.</p>
+    <p><a href="#" style="color:#fde68a; text-decoration:none;">Tentang Penulis</a> | <a href="#" style="color:#fde68a; text-decoration:none;">Kontak</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+    
+  <audio id="background-audio" loop>
+  <source src="background-music.mp3" type="audio/mpeg">
+  Browser Anda tidak mendukung elemen audio.
+</audio>
+
+<div id="music-player-container">
+  <button id="play-pause-btn">▶️</button>
+</div>
+</body>
+</html>
+
+
+
+
